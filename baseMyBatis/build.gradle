@@ -1,0 +1,41 @@
+//构建java webProject
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+
+//添加jar包依赖的地址，使用maven仓库
+repositories {
+    maven {
+        url "http://maven.aliyun.com/nexus/content/groups/public/"
+    }
+    mavenCentral()
+}
+
+
+
+dependencies{
+   // https://mvnrepository.com/artifact/junit/junit
+    compile group: 'junit', name: 'junit', version: '4.12'
+
+// https://mvnrepository.com/artifact/org.springframework/spring-context
+compile group: 'org.springframework', name: 'spring-context', version: '4.3.6.RELEASE'
+
+// https://mvnrepository.com/artifact/org.springframework/spring-core
+compile group: 'org.springframework', name: 'spring-core', version: '4.3.6.RELEASE'
+
+// https://mvnrepository.com/artifact/org.springframework/spring-beans
+compile group: 'org.springframework', name: 'spring-beans', version: '4.3.6.RELEASE'
+
+
+// https://mvnrepository.com/artifact/org.springframework/spring-test
+compile group: 'org.springframework', name: 'spring-test', version: '4.3.6.RELEASE'
+
+// https://mvnrepository.com/artifact/aspectj/aspectjweaver
+compile group: 'aspectj', name: 'aspectjweaver', version: '1.5.4'
+
+// https://mvnrepository.com/artifact/mysql/mysql-connector-java
+compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.5'
+
+}
+
+
