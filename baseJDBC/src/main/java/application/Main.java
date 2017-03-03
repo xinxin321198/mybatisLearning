@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Random;
+import java.util.UUID;
 
 import jdbc.MySqlDB1;
 
@@ -51,8 +53,8 @@ public class Main {
 			
 			String inserSql = "insert into sys_users(user_name,password) values(?,?)";
 			PreparedStatement  pstmt = con.prepareStatement(inserSql);
-			pstmt.setString(1, "heheda");
-			pstmt.setString(2, "mimamimamima");
+			pstmt.setString(1, UUID.randomUUID().toString());
+			pstmt.setString(2, String.valueOf(new Random().nextInt(999999)));
 			int i = pstmt.executeUpdate();
 			System.out.println("insert 执行影响了"+i+"行");
 			
