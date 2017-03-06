@@ -13,8 +13,6 @@
 		<property name="jdbc.password" value="root"/>
 	</properties>
 	
-	<!-- mybatis的运行参数 -->
-	<settings></settings>
 	
 	<!-- 配置数据源 -->
     <environments default="development">
@@ -34,6 +32,22 @@
     
     <!-- 加载映射文件 -->
     <mappers>
-        <mapper resource="mapper/userDaoMapper.xml"/>
+    	<!-- 正常通过文件名来加载 -->
+        <!-- <mapper resource="mapper/userDaoMapper.xml"/> -->
+        
+        <!--使用接口加载映射文件
+        1.接口的java文件和xml文件必须同名
+        2.接口的java文件和xml文件必须在同一个目录下
+        3.此方法必须使用mapper代理dao的方式才能进行使用
+          -->
+        <!-- <mapper class="mapper.userDao"></mapper>-->
+        
+        
+        <!-- 批量加载接口映射文件，使用包名,mybatis自动扫描该包下面的所有mapper接口 
+        
+        1.接口的java文件和xml文件必须同名
+        2.接口的java文件和xml文件必须在同一个目录下
+        3.此方法必须使用mapper代理dao的方式才能进行使用-->
+        <package name="dao"></package>
     </mappers>
 </configuration>
