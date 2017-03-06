@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 指定命名空间 -->
+<mapper namespace="mapper">
+<!--     <select id="countAll" resultType="int">
+        select count(*) c from user;
+    </select>
+    
+    <select id="selectAll" resultType="com.mybatis.config.User"> 
+        select * from user order by userName asc
+    </select>
+    
+    <insert id="insert" parameterType="com.mybatis.config.User">
+        insert into user(userName,password,comment) values(#{userName},#{password},#{comment})
+    </insert>
+    
+    <update id="update" parameterType="com.mybatis.config.User">
+        update user set userName=#{userName},password=#{password},comment=#{comment} where userName=#{userName}
+    </update>
+    
+    <delete id="delete" parameterType="int">
+        delete from user where userName=#{userName}
+    </delete> -->
+    
+    <!-- #{}：参数都当成字符串解析（防止sql注入） -->
+    <!-- ${}:传什么拼成什么，不加任何修饰拼接到sql中 -->
+    <!-- resultType属性，表示查询到的数据所映射的实体类型 -->
+    <!-- parameterType：参数类型，
+    使用#简单类型参数名称随意
+  使用$简单类型只能使用value-->
+    <select id="get" parameterType="java.lang.Integer" resultType="entity.User">
+        select a.id,a.user_name as userName,password as password from sys_users a where a.id=#{id}
+    </select>
+    
+    <select id="findList" parameterType="entity.User" resultType="entity.User">
+    	select a.id,a.user_name as userName,password as password from sys_users a 
+    	<wehre>
+    		<if test="userName!=null and userName !=''">
+	    	 	and a.user_name like CONCAT('%',#{userName},'%')
+    		</if>
+    		<if test="userName!=null and userName !=''">
+	    	 	and a.password like CONCAT('%',#{password},'%')
+    		</if>
+    		
+    	</wehre>
+    </select>
+    
+    
+    <!-- 通过OGNL表达式获取对象属性值 -->
+    <insert id="insert" parameterType="entity.User">
+    	insert into sys_users(user_name,password) values(#{userName},#{password})
+    	
+    	<!-- 在执行了insert的之后，再查询出id返回出来 -->
+    	<!--keyProperty：要将查询到的值设置到parameterType的哪个属性上  -->
+    	<!--order:时机，是在insert之前执行还是之后执行  -->
+    	<!--resultType:指定返回值的类型  -->
+    	<!--ps:可使用before，在此调用DB里自带的其它获取id的函数进行id创建  -->
+    	<selectKey keyProperty="id" order="AFTER" resultType="long">
+    		select last_insert_id()
+    	</selectKey>
+    </insert>
+    
+    <update id="update" parameterType="entity.User">
+    	update sys_users a set a.user_name = #{userName}, a.password = #{password} where a.id=#{id}
+    </update>
+    
+    
+    <delete id="delete" parameterType="entity.User">
+    	delete from sys_users where id = #{id}
+    </delete>
+    
+</mapper>
