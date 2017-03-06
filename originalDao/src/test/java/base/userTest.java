@@ -28,7 +28,7 @@ public class userTest {
 	//已经把sqlSession封装起来的dao
 	private static UserDao userDao;
 	
-//	@Before
+	@Before
 	public void before() throws IOException{
 		InputStream inputStream = Resources.getResourceAsStream(resource);
 		sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
@@ -41,11 +41,7 @@ public class userTest {
 	 */
 	@Test
 	public void getUserTest() throws IOException{
-//		User resultUser = userDao.get(4);
-		User resultUser = new User();
-		resultUser.setId(123123);
-		resultUser.setUserName("123123123");
-		resultUser.setPassword("123123123");
+		User resultUser = userDao.get(4);
 		System.out.println("--------------查询到user:id:"+resultUser.getId()+" userName:"+resultUser.getUserName()+" password:"+resultUser.getPassword());
 		
 	}
@@ -85,18 +81,18 @@ public class userTest {
 	 * 修改用户信息
 	 * @throws IOException 
 	 */
-//	@Test
+	@Test
 	public void updateUserTest() throws IOException{
 		User updateUser = new User();
-		updateUser.setId(1);
+		updateUser.setId(8);
 		updateUser.setUserName("newName_"+UUID.randomUUID());
 		updateUser.setPassword(String.valueOf("newPassword_"+new Random().nextInt(9999999)));
 		userDao.update(updateUser);
 	}
 	
 	
-//	@Test
+	@Test
 	public void deleteUserTest() throws IOException{
-		userDao.delete(1);
+		userDao.delete(8);
 	}
 }

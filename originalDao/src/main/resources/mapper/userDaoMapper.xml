@@ -38,15 +38,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <select id="findList" parameterType="entity.User" resultType="entity.User">
     	select a.id,a.user_name as userName,password as password from sys_users a 
-    	<wehre>
-    		<if test="userName!=null and userName !=''">
+    	<where>
+    		<if test="userName != null and userName !=''">
 	    	 	and a.user_name like CONCAT('%',#{userName},'%')
     		</if>
-    		<if test="userName!=null and userName !=''">
+    		<if test="password != null and passwrod !=''">
 	    	 	and a.password like CONCAT('%',#{password},'%')
     		</if>
     		
-    	</wehre>
+    	</where>
     </select>
     
     
@@ -69,7 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
     
     
-    <delete id="delete" parameterType="entity.User">
+    <delete id="delete" parameterType="int">
     	delete from sys_users where id = #{id}
     </delete>
     

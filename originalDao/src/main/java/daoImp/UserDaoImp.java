@@ -22,7 +22,7 @@ public class UserDaoImp implements UserDao {
 	@Override
 	public User get(int i) {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
-		User user = sqlSession.selectOne("mapper.get", user);
+		User user = sqlSession.selectOne("mapper.get", i);
 		sqlSession.close();
 		return user;
 	}
@@ -56,7 +56,7 @@ public class UserDaoImp implements UserDao {
 	@Override
 	public void delete(int i) {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
-		sqlSession.delete("mapper.delete",1);
+		sqlSession.delete("mapper.delete",i);
 		sqlSession.commit();
 		sqlSession.close();
 	}
