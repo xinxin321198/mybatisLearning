@@ -7,13 +7,12 @@ import java.util.UUID;
 
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
-
-import com.sun.org.apache.bcel.internal.generic.NEW;
+import org.springframework.test.annotation.Rollback;
 
 import entity.User;
 import utils.SqlSessionUtils;
 
-
+@Rollback(value=false)
 public class userTest {
 	
 	public static final String resource = "mybatis.xml";
@@ -75,6 +74,38 @@ public class userTest {
 		sqlSession.insert("mapper.insert", insertUser);
 		sqlSession.commit();
 		System.out.println("-----------新增的user对象的ID是："+insertUser.getId());
+		SqlSessionUtils.closeSqlSession(sqlSession);
+	}
+	
+	
+	/**
+	 * 修改用户信息
+	 * @throws IOException 
+	 */
+//	@Test
+	public void updateUserTest() throws IOException{
+		SqlSession sqlSession = SqlSessionUtils.getSqlSession(resource);
+		
+		User updateUser = new User();
+		updateUser.setId(1);
+		updateUser.setUserName("newName_"+UUID.randomUUID());
+		updateUser.setPassword(String.valueOf("newPassword_"+new Random().nextInt(9999999)));
+		
+		sqlSession.update("mapper.update", updateUser);
+		sqlSession.commit();
+		System.out.println("-----------修改的user对象的ID是："+updateUser.getId());
+		SqlSessionUtils.closeSqlSession(sqlSession);
+	}
+	
+	
+//	@Test
+	public void deleteUserTest() throws IOException{
+		SqlSession sqlSession = SqlSessionUtils.getSqlSession(resource);
+		User delteUser = new User();
+		delteUser.setId(1);
+		sqlSession.delete("mapper.delete", delteUser);
+		sqlSession.commit();
+		System.out.println("-----------删除的user对象的ID是："+delteUser.getId());
 		SqlSessionUtils.closeSqlSession(sqlSession);
 	}
 }

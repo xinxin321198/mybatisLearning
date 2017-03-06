@@ -55,4 +55,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	</selectKey>
     </insert>
     
+    <update id="update" parameterType="entity.User">
+    	update sys_users a set a.user_name = #{userName}, a.password = #{password} where a.id=#{id}
+    </update>
+    
+    
+    <delete id="delete" parameterType="entity.User">
+    	delete from sys_users where id = #{id}
+    </delete>
+    
 </mapper>
