@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+	<!-- 加载属性配置文件 ,除了使用resource属性指定外，还可通过url属性指定url  -->
+	<!--ps:竟然读取不到外部文件的属性，不知道什么鬼原因，算了，写在这里算了  -->
+	<properties>
+		<property name="jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+		<property name="jdbc.url" value="jdbc:mysql://127.0.0.1:3306/dataagg?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>
+		<property name="jdbc.username" value="root"/>
+		<property name="jdbc.password" value="root"/>
+	</properties>
+	
+	<!-- mybatis的运行参数 -->
+	<settings></settings>
+	
+	<!-- 配置数据源 -->
+    <environments default="development">
+        <environment id="development">
+        <!-- jdcb事务管理 -->
+            <transactionManager type="JDBC" />
+            <!-- 数据库连接池 -->
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}" />
+                <!-- 这个连接字符串有点扯，得研究一下后面参数都是些啥子鬼，而且&号得用转义字符来代替 &amp -->
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}" />
+                <property name="password" value="${jdbc.password}" />
+            </dataSource>
+        </environment>
+    </environments>
+    
+    <!-- 加载映射文件 -->
+    <mappers>
+        <mapper resource="mapper/userDaoMapper.xml"/>
+    </mappers>
+</configuration>
