@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <environments default="development">
+        <environment id="development">
+        <!-- jdcb事务管理 -->
+            <transactionManager type="JDBC" />
+            <!-- 数据库连接池 -->
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver" />
+                <!-- 这个连接字符串有点扯，得研究一下后面参数都是些啥子鬼，而且&号得用转义字符来代替 &amp -->
+                <property name="url" value="jdbc:mysql://127.0.0.1:3306/dataagg?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>
+                <property name="username" value="root" />
+                <property name="password" value="root" />
+            </dataSource>
+        </environment>
+    </environments>
+    
+    <!-- 加载映射文件 -->
+    <mappers>
+        <mapper resource="mapper/userDaoMapper.xml"/>
+    </mappers>
+</configuration>
