@@ -17,7 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select a.id,a.user_name as userName,password as password from sys_users a where a.id=#{id}
     </select>
     
-    <select id="findList" parameterType="entity.User" resultType="entity.User">
+    <select id="findList" parameterType="user" resultType="user">
     	select a.id,a.user_name as userName,password as password from sys_users a 
     	<where>
     		<if test="userName != null and userName !=''">
