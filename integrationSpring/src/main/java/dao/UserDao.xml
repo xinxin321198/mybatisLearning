@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 指定命名空间，必须和接口的mapper路径一直 -->
+<mapper namespace="dao.UserDao">
+
+
+
+	<!-- 基本字段的sql片段 -->
+	<sql id="baseField">
+		a.id,a.user_name as userName,
+		password as password
+	</sql>
+	
+	<!-- 基础查询条件的sql片段 -->
+	<sql id="baseWhere">
+		<if test="userName != null and userName !=''">
+			and a.user_name like CONCAT('%',#{userName},'%')
+		</if>
+		<if test="password != null and passwrod !=''">
+			and a.password like CONCAT('%',#{password},'%')
+		</if>
+	</sql>
+
+
+
+	<!-- 映射结果集，把sql查询到的数据映射到userVo上 -->
+	<resultMap type="entity.UserVo" id="userVoMap">
+		<!--id唯一标识 column:查询出来的列名 property:vo中的属性名 -->
+		<id column="id" property="id" />
+		<!--普通列的定义 -->
+		<result column="userName" property="name" />
+		<result column="password" property="pwd" />
+	</resultMap>
+
+	<!-- 使用映射结果集，把查询结果映射到vo上 -->
+	<select id="findUserVoList" parameterType="user" resultMap="userVoMap">
+		select a.id,a.user_name as userName,password as password from
+		sys_users a
+		<where>
+			<include refid="baseWhere"></include>
+		</where>
+	</select>
+
+
+
+
+	<!-- #{}：参数都当成字符串解析（防止sql注入） -->
+	<!-- ${}:传什么拼成什么，不加任何修饰拼接到sql中 -->
+	<!-- resultType属性，表示查询到的数据所映射的实体类型 -->
+	<!-- parameterType：参数类型， 使用#简单类型参数名称随意 使用$简单类型只能使用value -->
+	<!-- 如果使用mapper代理，参数类型和返回值类型必须与接口中的一致 -->
+	<select id="get" parameterType="java.lang.Integer" resultType="entity.User">
+		select 
+		<include refid="baseField"></include>
+		 from
+		sys_users a where a.id=#{id}
+	</select>
+
+	<select id="findList" parameterType="user" resultType="user">
+		select a.id,a.user_name as userName,password as password from
+		sys_users a
+		<where>
+			<include refid="baseWhere"></include>
+		</where>
+	</select>
+	
+	
+	<!-- 通过id的数组查询，并返回vo -->
+	<select id="findListByIds" parameterType="List" resultMap="userVoMap">
+		select a.id,a.user_name as userName,password as password from
+		sys_users a
+		<where>
+			<!--
+			collection:要循环的集合对象  
+			item:集合里每次遍历的对象
+			open:开始遍历时拼接的字符串
+			close:接触遍历时拼接的字符串
+			separator：每次拼接的分隔符
+			-->
+			<foreach collection="list" item="id" open="and (" close=")" separator="or">
+				a.id=#{id}
+			</foreach>
+		</where>
+	</select>
+
+
+	<!-- 通过OGNL表达式获取对象属性值 -->
+	<insert id="insert" parameterType="entity.User">
+		insert into sys_users(user_name,password)
+		values(#{userName},#{password})
+
+		<!-- 在执行了insert的之后，再查询出id返回出来 -->
+		<!--keyProperty：要将查询到的值设置到parameterType的哪个属性上 -->
+		<!--order:时机，是在insert之前执行还是之后执行 -->
+		<!--resultType:指定返回值的类型 -->
+		<!--ps:可使用before，在此调用DB里自带的其它获取id的函数进行id创建 -->
+		<selectKey keyProperty="id" order="AFTER" resultType="long">
+			select last_insert_id()
+		</selectKey>
+	</insert>
+
+	<update id="update" parameterType="entity.User">
+		update sys_users a set a.user_name = #{userName}, a.password = #{password}
+		where a.id=#{id}
+	</update>
+
+
+	<delete id="delete" parameterType="int">
+		delete from sys_users where id = #{id}
+	</delete>
+
+</mapper>
