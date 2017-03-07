@@ -6,6 +6,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- 指定命名空间，必须和接口的mapper路径一直 -->
 <mapper namespace="dao.UserDao">
+
+	<!-- 开启本mapper的namespace下的二级缓存 -->
+	<cache/>
+
+
+
+
+
     <!-- #{}：参数都当成字符串解析（防止sql注入） -->
     <!-- ${}:传什么拼成什么，不加任何修饰拼接到sql中 -->
     <!-- resultType属性，表示查询到的数据所映射的实体类型 -->
@@ -13,7 +21,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     使用#简单类型参数名称随意
   使用$简单类型只能使用value-->
   	<!-- 如果使用mapper代理，参数类型和返回值类型必须与接口中的一致 -->
-    <select id="get" parameterType="java.lang.Integer" resultType="entity.User">
+  	<!-- useCache="false"，该statement禁用二级缓存 -->
+    <select id="get" parameterType="java.lang.Integer" resultType="entity.User" useCache="false">
         select a.id,a.user_name as userName,password as password from sys_users a where a.id=#{id}
     </select>
     
@@ -32,6 +41,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     
     <!-- 通过OGNL表达式获取对象属性值 -->
+      	<!--flushCache="true" 表示执行完insert之后刷新二级缓存 -->
     <insert id="insert" parameterType="entity.User">
     	insert into sys_users(user_name,password) values(#{userName},#{password})
     	

@@ -17,7 +17,12 @@
 	
 	
     <!--运行时候的一些参数  -->
-    <!-- <settings></settings> -->
+<!-- 	<settings>  
+        打开延迟加载的开关  
+        <setting name="lazyLoadingEnabled" value="true" />  
+        将积极加载改为消息加载即按需加载  
+        <setting name="aggressiveLazyLoading" value="false"/>  
+    </settings>   -->
     
     <!--定义别名  mapper.xml中的statement中的输入和输出参数，可以定义一些别名-->
     <typeAliases>

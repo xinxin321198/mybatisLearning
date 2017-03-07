@@ -65,7 +65,12 @@ public class userTest {
 		for (User resultUser : userList) {
 			System.out.println("--------------查询到user:id:"+resultUser.getId()+" userName:"+resultUser.getUserName()+" password:"+resultUser.getPassword());
 		}
-		
+		//一级缓存（mybatis自带），如果使用同一个sqlSession,那么就能适应一级缓存
+		//如果期间做过进行过新增、修改、删除的操作，那么就清空一级缓存
+		List<User> userList2 = userDao.findList(userParam);
+		for (User resultUser2 : userList2) {
+			System.out.println("--------------查询到user:id:"+resultUser2.getId()+" userName:"+resultUser2.getUserName()+" password:"+resultUser2.getPassword());
+		}
 	}
 	
 	

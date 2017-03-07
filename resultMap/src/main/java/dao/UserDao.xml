@@ -20,7 +20,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		
 		<!--一对一  -->
 		<!-- 把结果映射到vo里面的单个user对象中 -->
-		<association property="user" javaType="entity.User">
+		<!-- 
+		select:使用此属性，传入其它statement的id，可以进行“延迟加载”关联 
+		column：关联查询所使用的外键
+		-->
+		
+		<association property="user" javaType="entity.User" >
 			
 			<!--id:user的唯一标识  
 				property:映射到user的哪个属性上
@@ -37,11 +42,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			property：映射到vo里的哪个属性对象中
 			ofType:集合中的实体类类型
 		 -->
-		<collection property="accounts" ofType="xxxxxxx(还未创建)">
+<!-- 		<collection property="accounts" ofType="xxxxxxx(还未创建)">
 			<id column="accountId" property="id"/>
 			<result column="userId" property="userId"/>
 			
-		</collection>
+		</collection> -->
 	</resultMap>
 
 	<!-- 使用映射结果集，把查询结果映射到vo上 -->
