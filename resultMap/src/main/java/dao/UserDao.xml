@@ -9,12 +9,39 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 	<!-- 映射结果集，把sql查询到的数据映射到userVo上 -->
+	<!-- 可以使用继承 -->
 	<resultMap type="entity.UserVo" id="userVoMap">
-		<!--id唯一标识 column:查询出来的列名 property:vo中的属性名 -->
+		<!--id唯一标识 column:查询出来的列名
+		 property:vo中的属性名 -->
 		<id column="id" property="id" />
 		<!--普通列的定义 -->
 		<result column="userName" property="name" />
 		<result column="password" property="pwd" />
+		
+		<!--一对一  -->
+		<!-- 把结果映射到vo里面的单个user对象中 -->
+		<association property="user" javaType="entity.User">
+			
+			<!--id:user的唯一标识  
+				property:映射到user的哪个属性上
+			-->
+			<id column="id" property="id"/>
+			
+			<result column="userName" property="userName"/>
+			<result column="password" property="password"/>
+		</association>
+		
+		<!-- 一对多 -->
+		<!-- 映射多条记录
+			column:查询出来的列名
+			property：映射到vo里的哪个属性对象中
+			ofType:集合中的实体类类型
+		 -->
+		<collection property="accounts" ofType="xxxxxxx(还未创建)">
+			<id column="accountId" property="id"/>
+			<result column="userId" property="userId"/>
+			
+		</collection>
 	</resultMap>
 
 	<!-- 使用映射结果集，把查询结果映射到vo上 -->

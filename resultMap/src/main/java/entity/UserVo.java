@@ -5,6 +5,7 @@ public class UserVo {
 	private long id;
 	private String name;
 	private String pwd;
+	private User user;
 	public long getId() {
 		return id;
 	}
@@ -22,6 +23,12 @@ public class UserVo {
 	}
 	public void setPwd(String pwd) {
 		this.pwd = pwd;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 	

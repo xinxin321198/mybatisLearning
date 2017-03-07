@@ -122,6 +122,9 @@ public class userTest {
 	}
 	
 	
+	/**
+	 * 查询得到userVo，关联出user
+	 */
 	@Test
 	public void findUserVoListTest(){
 		User userParam = new User();
@@ -130,6 +133,7 @@ public class userTest {
 		
 		for (UserVo resultUserVo : userVoList) {
 			System.out.println("--------------查询到userVo:id:"+resultUserVo.getId()+" name:"+resultUserVo.getName()+" pwd:"+resultUserVo.getPwd());
+			System.out.println("--------------查询到user:id:"+resultUserVo.getUser().getId()+" UserName:"+resultUserVo.getUser().getUserName()+" Password:"+resultUserVo.getUser().getPassword());
 		}
 	}
 }
