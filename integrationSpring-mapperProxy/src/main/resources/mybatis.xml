@@ -34,7 +34,8 @@
         1.接口的java文件和xml文件必须同名
         2.接口的java文件和xml文件必须在同一个目录下
         3.此方法必须使用mapper代理dao的方式才能进行使用-->
-        <package name="dao"></package> 
+        <!-- 如果和spring的整合包整合，并且使用了整合包中的扫描器，那么这个就不需要了，但是规范得遵循 -->
+        <!-- <package name="dao"></package>  -->
     </mappers>
     
 </configuration>

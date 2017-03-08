@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd"><!-- 
-		beans上也能设置自动装属性 -->
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+      	http://www.springframework.org/schema/context
+     	http://www.springframework.org/schema/context/spring-context-4.2.xsd"><!-- beans上也能设置自动装属性 -->
 
 
+	<!-- 我靠，还是获取不到配置文件，我就不知道啥子原因了 -->
+	<context:property-placeholder location="classpath:db.properties"/>
 
- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"  
-        destroy-method="close">  
-        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />  
-        <property name="url" value="jdbc:mysql://127.0.0.1:3306/dataagg?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC" />  
-        <property name="username" value="root" />  
-        <property name="password" value="root" />  
-<!--         初始化连接大小  
-        <property name="initialSize" value="${initialSize}"></property>  
-        连接池最大数量  
-        <property name="maxActive" value="${maxActive}"></property>  
-        连接池最大空闲  
-        <property name="maxIdle" value="${maxIdle}"></property>  
-        连接池最小空闲  
-        <property name="minIdle" value="${minIdle}"></property>  
-        获取连接最大等待时间  
-        <property name="maxWait" value="${maxWait}"></property>   -->
-    </bean>  
-	
-	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+		<property name="url"
+			value="jdbc:mysql://127.0.0.1:3306/dataagg?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+		<!-- 初始化连接大小 <property name="initialSize" value="${initialSize}"></property> 
+			连接池最大数量 <property name="maxActive" value="${maxActive}"></property> 连接池最大空闲 
+			<property name="maxIdle" value="${maxIdle}"></property> 连接池最小空闲 <property 
+			name="minIdle" value="${minIdle}"></property> 获取连接最大等待时间 <property name="maxWait" 
+			value="${maxWait}"></property> -->
+	</bean>
+
+
 	<!--spring注入sqlSessionFactory -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<!-- 加载mybatis配置 -->
@@ -33,11 +33,18 @@
 		<!--数据源 -->
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
-	
+
 	<!-- 使用mapper代理的方式，遵循mapper代理的规范 -->
-	<bean id="userDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
-		<constructor-arg name="mapperInterface" value="dao.UserDao"></constructor-arg>
-		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	<!-- <bean id="userDao" class="org.mybatis.spring.mapper.MapperFactoryBean"> 
+		<constructor-arg name="mapperInterface" value="dao.UserDao"></constructor-arg> 
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property> </bean> -->
+
+
+	<!-- 使用mapper的批量扫描的方式，免得多个dao都得来配 -->
+	<!-- 从dao保重扫描出接口，然后自动创建dao的实现类代理对象，并且自动在spring中注册 此扫描器也得遵循mybatis的mapper代理的规范 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="dao"></property>
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
 	</bean>
-	
+
 </beans>
