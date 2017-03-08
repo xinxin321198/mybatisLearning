@@ -4,8 +4,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 
-<!-- 指定命名空间，必须和接口的mapper路径一直 -->
-<mapper namespace="dao.UserDao">
+<!-- 指定命名空间
+	dao原始方式：写包名就行,mybatis.xml加载时使用resource方式
+	mapper代理方式：此文件与dao文件放一起，并且同名，写上完全包名+类名，mybati加载时可以使用类名或者包扫描的方式
+ -->
+<mapper namespace="mapper">
 
 
 

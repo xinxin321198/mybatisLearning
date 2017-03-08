@@ -5,12 +5,14 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd"><!-- 
 		beans上也能设置自动装属性 -->
 
+
+
  <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"  
         destroy-method="close">  
-        <property name="driverClassName" value="${jdbc.driver}" />  
-        <property name="url" value="${jdbc.url}" />  
-        <property name="username" value="${jdbc.username}" />  
-        <property name="password" value="${jdbc.password}" />  
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />  
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/dataagg?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC" />  
+        <property name="username" value="root" />  
+        <property name="password" value="root" />  
 <!--         初始化连接大小  
         <property name="initialSize" value="${initialSize}"></property>  
         连接池最大数量  
@@ -24,11 +26,23 @@
     </bean>  
 	
 	
-	<!--sqlSessionFactory -->
+	<!--spring注入sqlSessionFactory -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<!-- 加载mybatis配置 -->
-		<property name="configLocation" value="classpath:mybatis.xml"></property>
+		<property name="configLocation" value="mybatis.xml"></property>
 		<!--数据源 -->
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
+	
+	<!--创建dao ，注入daoImp1，提供相应的sqlSessionFactory构造方法进行依赖注入 -->
+	<bean id="userDao1" class="daoImp.UserDaoImp">
+		<!-- 构造方法注入sqlSessionFactory -->
+		<constructor-arg type="org.apache.ibatis.session.SqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
+	</bean>
+	
+		<!--创建dao,注入daoImp2,集成自spring提供的dao类，已提供sqlSessionFactory的构造方法，并且不需要我们开启或关闭sqlSessionFactory -->
+	<bean id="userDao2" class="daoImp.UserDaoImp2">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	
 </beans>

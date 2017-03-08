@@ -1,0 +1,5 @@
+#mybatis的示例程序-mybatis整合spring,使用原始的daoImp实现类的方式整合
+1.使用的dao构造方法注入的方式注入sqlSessionFctory
+2.让daoImp继承spring和mybatis的整合包里提供的dao类，就可以注入sqlSessionFactory
+##使用gradle和maven两种构建方式
+

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+	
+    <!--定义别名  mapper.xml中的statement中的输入和输出参数，可以定义一些别名-->
+    <typeAliases>
+    	<!-- <typeAlias type="entity.User" alias="user"/> -->
+    	
+    	<!--批量定义别名 ,mybatis自动定义别名 -->
+		<package name="entity"/>
+    </typeAliases>
+	
+	<!-- 类型转换器，java类型==>sql类型,一般不用自己定义，mybatis定义好了 -->
+	<!-- <typeHandlers ></typeHandlers> -->
+	
+    
+    <!-- 加载映射文件 -->
+    <mappers>
+    	<!-- 正常通过文件名来加载 -->
+        <mapper resource="mapper/UserDao.xml"/>
+        
+        <!--使用接口加载映射文件
+        1.接口的java文件和xml文件必须同名
+        2.接口的java文件和xml文件必须在同一个目录下
+        3.此方法必须使用mapper代理dao的方式才能进行使用
+          -->
+        <!-- <mapper class="mapper.userDao"></mapper>-->
+        
+        
+        <!-- 批量加载接口映射文件，使用包名,mybatis自动扫描该包下面的所有mapper接口 
+        1.接口的java文件和xml文件必须同名
+        2.接口的java文件和xml文件必须在同一个目录下
+        3.此方法必须使用mapper代理dao的方式才能进行使用-->
+       <!--  <package name="mapper"></package>  -->
+    </mappers>
+    
+</configuration>
